@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="hero-section">
+    <h1>Бюро знахідок</h1>
+    <p>ЛР 4</p>
+    <a href="{{ url_for('contacts') }}">Детально про авторів</a>
+    <a href="{{ url_for('postlist') }}">Переглянути знахідки</a>
+    {% if user.is_authenticated %}
+
+    {% else %}
+        <a href="{{ url_for('register') }}">Регістрація</a>
+        <a href="{{ url_for('login') }}">Увійти</a>
+    {% endif %}
+
+</div>
+
+
+{% endblock %}

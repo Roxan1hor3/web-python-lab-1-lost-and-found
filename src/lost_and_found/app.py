@@ -1,7 +1,9 @@
 from fastapi import FastAPI, Request
 from starlette.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
 
 from src.lost_and_found.api.dependencies import services
+from src.lost_and_found.api.v1.routers import v1_router
 from src.lost_and_found.config import get_settings
 
 settings = get_settings()
@@ -21,9 +23,19 @@ def create_app() -> FastAPI:
         strict_slashes=True,
         **docs_args,
     )
+    app.mount(
+        "/static",
+        StaticFiles(directory="src/lost_and_found/templates/static"),
+        name="static",
+    )
+    app.mount(
+        "/photos",
+        StaticFiles(directory="photos"),
+        name="photos",
+    )
     setup_middleware(app)
 
-    # app.include_router(v1_router, prefix="/api")
+    app.include_router(v1_router, prefix="/api")
 
     # attach_exception_handlers(app)
 

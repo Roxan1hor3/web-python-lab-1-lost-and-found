@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'base.j2' %}
 {% block content %}
 
 <div class="hero-section">
     <h1>Бюро знахідок</h1>
     <p>ЛР 4</p>
-    <a href="{{ url_for('contacts') }}">Детально про авторів</a>
-    <a href="{{ url_for('postlist') }}">Переглянути знахідки</a>
-    {% if user.is_authenticated %}
+    <a href="{{ url_for('get_contacts') }}">Детально про авторів</a>
+    <a href="{{ url_for('get_post_list') }}">Переглянути знахідки</a>
+    {% if is_authenticated %}
 
     {% else %}
         <a href="{{ url_for('register') }}">Регістрація</a>

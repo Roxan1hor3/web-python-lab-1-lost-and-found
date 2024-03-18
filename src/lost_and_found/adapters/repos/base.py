@@ -1,7 +1,7 @@
 from typing import TypeVar, Sequence
 from uuid import UUID
 
-from sqlalchemy import select, update
+from sqlalchemy import select, update, text
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -12,6 +12,7 @@ from src.lost_and_found.adapters.filters.base import (
     BaseFilterModel,
 )
 from src.lost_and_found.adapters.models.base import EntityModel
+from src.lost_and_found.adapters.orm import User
 from src.lost_and_found.adapters.orm.base import BaseOrmModel
 
 ORMModel = TypeVar(name="ORMModel", bound=BaseOrmModel, covariant=True)
@@ -93,17 +94,15 @@ class BaseSQLAlchemyRepo(BaseRepo):
         limit: int,
         offset: int,
         filter_data: FilterModel,
-        sort_model: SortModel,
-        sort_data: str,
+        order_by: str,
+        sort_option: str,
         session: AsyncSession,
     ) -> Sequence[ORMModel]:
         objects = self.filter.filter_query(
-            expr=select(self.orm_model), filter_data=filter_data
+            expr=select(self.orm_model, User), filter_data=filter_data
         )
 
-        stmt = objects.order_by(
-            *sort_convertor(sort_model, sort_data).generate_params()
-        )
+        stmt = objects.order_by(text((f"{order_by} {sort_option}")))
         query_res = await session.execute(stmt.limit(limit).offset(offset))
 
         return query_res.fetchall()

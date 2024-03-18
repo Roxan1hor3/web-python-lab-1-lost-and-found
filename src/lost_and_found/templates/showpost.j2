@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'base.j2' %}
 {% block content %}
       <div class="single-post">
         <div class="single-post-image">
-            <img src="{{ post.photo.url }}" alt="{{ post.name }}">
+            <img src="{{ url_for('photos', path='/' + post.photo) }}" alt="{{ post.name }}">
         </div>
         <div class="single-post-content">
             <div class="single-post-title">
@@ -18,19 +18,16 @@
                 <span class="single-post-date">
                     {{ post.data }}
                 </span>
-                <span class="single-post-contact">
-                    **{{ post.founder_contact }}**
-                </span>
             </div>
         </div>
         <div class="single-post-comments">
-            <a href="{{ url_for('addcomment', post_id=post.id) }}">
+            <a href="{{ url_for('add_comment', post_id=post.id) }}">
                 <span class="single-post-comments-text">
                     <strong>Залишити комментар</strong>
                 </span>
             </a>
         </div>
-        {% for comment in comments %}
+        {% for comment in post.comments %}
             <div class="comment">
                 <div class="comment-author">
                     {{ comment.author }}

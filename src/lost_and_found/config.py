@@ -2,8 +2,7 @@ from functools import lru_cache
 from typing import Sequence
 
 from pydantic import PostgresDsn
-from pydantic.v1 import BaseSettings
-from pydantic_settings import SettingsConfigDict
+from pydantic_settings import SettingsConfigDict, BaseSettings
 
 
 class Settings(BaseSettings):
@@ -13,13 +12,8 @@ class Settings(BaseSettings):
     API_HOST: str = "127.0.0.1"
     API_DEBUG: bool = False
 
-    ADMIN_API_KEY: str
-
     DB_URL: PostgresDsn
     POSTGRES_ECHO_MODE: bool = True
-
-    LOGGER_LEVEL: str = "DEBUG"
-    LOGGER_TYPE: str = "PLAIN"
 
     SQLA_ECHO: bool = False
 

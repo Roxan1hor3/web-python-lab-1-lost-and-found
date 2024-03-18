@@ -1,0 +1,31 @@
+{% extends 'base.j2' %}
+{% block content %}
+
+<div class="form-container">
+
+    <h1>Додавання посту</h1>
+<form action="{{ url_for('add_post') }}" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label for="name">Заголовок посту:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+
+    <div class="form-group">
+        <label for="description">Вміст посту:</label>
+        <textarea id="description" name="description" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="photo">Зображення:</label>
+        <input type="file" id="photo" name="photo">
+    </div>
+
+    <div class="form-group">
+        <input class="form-submit" type="submit" value="Додати">
+    </div>
+</form>
+
+
+</div>
+{% endblock %}

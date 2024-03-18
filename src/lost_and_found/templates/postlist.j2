@@ -1,0 +1,32 @@
+{% extends 'base.j2' %}
+{% block content %}
+
+    {% for p in posts %}
+
+    <div class="post">
+        <a href="{{ url_for('get_post', id=p.id) }}">
+            <div class="post-image">
+                <img src="{{ url_for('photos', path='/' + p.photo) }}" alt="{{ p.name }}">
+            </div>
+        </a>
+        <div class="post-content">
+            <div class="post-title">
+                <h2>{{ p.name }}</h2>
+            </div>
+            <div class="post-description">
+                <p>{{ p.description }}</p>
+            </div>
+            <div class="post-meta">
+                <span class="post-author">
+                    {{ p.author.username }}
+                </span>
+                <span class="post-date">
+                    {{ p.data }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+{% endblock %}

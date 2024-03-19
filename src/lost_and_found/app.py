@@ -1,10 +1,13 @@
 from fastapi import FastAPI, Request
+from sqladmin import Admin
 from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
 from src.lost_and_found.api.dependencies import services
+from src.lost_and_found.api.v1.admin.views.admin import UserAdmin
 from src.lost_and_found.api.v1.routers import v1_router
 from src.lost_and_found.config import get_settings
+from src.lost_and_found.extensions.db import engine
 
 settings = get_settings()
 
@@ -19,10 +22,12 @@ def create_app() -> FastAPI:
         }
 
     app = FastAPI(
-        title="Synthetic LostAndFound service API",
+        title="LostAndFound service API",
         strict_slashes=True,
         **docs_args,
     )
+    admin = Admin(app, engine)
+    admin.add_view(UserAdmin)
     app.mount(
         "/static",
         StaticFiles(directory="src/lost_and_found/templates/static"),

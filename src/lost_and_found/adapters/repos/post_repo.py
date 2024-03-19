@@ -1,9 +1,13 @@
-from sqlalchemy import select, and_
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.lost_and_found.adapters.filters.base import SortOption
 from src.lost_and_found.adapters.filters.post_filters import PostFilterModel, PostFilter
-from src.lost_and_found.adapters.models.post import PostRetrieveModel, PostWithCommentsRetrieveModel, PostCreateModel
+from src.lost_and_found.adapters.models.post import (
+    PostRetrieveModel,
+    PostWithCommentsRetrieveModel,
+    PostCreateModel,
+)
 from src.lost_and_found.adapters.orm import Post, User
 from src.lost_and_found.adapters.repos.base import BaseSQLAlchemyRepo
 
@@ -51,7 +55,7 @@ class PostRepo(BaseSQLAlchemyRepo):
             author_id=result[0].author_id,
             date=result[0].date,
             author=result[1],
-            comments=[]
+            comments=[],
         )
 
     async def create_post(self, session: AsyncSession, post: PostCreateModel):

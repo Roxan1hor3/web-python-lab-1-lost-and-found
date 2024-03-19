@@ -76,7 +76,9 @@ async def add_post(
     session: AsyncSession = Depends(get_session),
 ):
     user = getattr(request.state, "user", None)
-    post = await lost_and_found_service.create_post(session=session, _id=user.id, name=name, description=description, image=photo)
+    post = await lost_and_found_service.create_post(
+        session=session, _id=user.id, name=name, description=description, image=photo
+    )
     post = await lost_and_found_service.get_post(session=session, _id=post.id)
     return templates.TemplateResponse(
         request=request,
@@ -90,6 +92,7 @@ async def add_post(
             "user": user,
         },
     )
+
 
 @post_routers.get("/add_comment")
 async def add_post(

@@ -3,14 +3,13 @@ import uuid
 from uuid import UUID
 
 from fastapi import UploadFile
-from fastapi.params import File
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.lost_and_found.adapters.models.comment import CommentRetrieveModel, CommentCreateModel
+from src.lost_and_found.adapters.models.comment import CommentCreateModel
 from src.lost_and_found.adapters.models.feedback_message import (
     FeedbackMessageCreateModel,
 )
-from src.lost_and_found.adapters.models.post import PostRetrieveModel, PostCreateModel
+from src.lost_and_found.adapters.models.post import PostCreateModel
 from src.lost_and_found.adapters.models.user import UserCreateModel, UserRetrieveModel
 from src.lost_and_found.adapters.repos.comment_repo import CommentRepo
 from src.lost_and_found.adapters.repos.feedback_message_repo import FeedbackMessageRepo
@@ -79,19 +78,25 @@ class LostAndFoundService:
         return post
 
     async def create_comment(self, comment_text, post_id, author_id, session):
-        await self.comment_repo.create(comment=CommentCreateModel(
-            text=comment_text,
-            post_id=post_id,
-            author_id=author_id,
-        ), session=session)
+        await self.comment_repo.create(
+            comment=CommentCreateModel(
+                text=comment_text,
+                post_id=post_id,
+                author_id=author_id,
+            ),
+            session=session,
+        )
 
     async def create_post(self, session, _id, name, description, image: UploadFile):
         with open(os.path.join("photos", image.filename), "wb") as buffer:
             buffer.write(image.file.read())
-        post = await self.post_repo.create_post(session=session, post=PostCreateModel(
-            name=name,
-            description=description,
-            photo=image.filename,
-            author_id=_id,
-        ))
+        post = await self.post_repo.create_post(
+            session=session,
+            post=PostCreateModel(
+                name=name,
+                description=description,
+                photo=image.filename,
+                author_id=_id,
+            ),
+        )
         return post

@@ -15,6 +15,7 @@ class PostRetrieveModel(EntityModel):
     date: datetime
     author: UserRetrieveModel
 
+
 class PostCreateModel(BaseModel):
     name: str
     description: str

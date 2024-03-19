@@ -4,7 +4,9 @@ from fastapi import APIRouter, Depends, Request, Form
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.templating import Jinja2Templates
 
-from src.lost_and_found.adapters.services.lost_and_found_service import LostAndFoundService
+from src.lost_and_found.adapters.services.lost_and_found_service import (
+    LostAndFoundService,
+)
 from src.lost_and_found.api.dependencies.auth import is_authenticated_checker
 from src.lost_and_found.api.dependencies.services import get_lost_and_found_service
 from src.lost_and_found.extensions.db import get_session
@@ -16,6 +18,7 @@ comments_routers = APIRouter(
 )
 
 templates = Jinja2Templates(directory="src/lost_and_found/templates")
+
 
 @comments_routers.get("/{post_id}")
 async def add_comment(
@@ -35,6 +38,7 @@ async def add_comment(
             "user": user,
         },
     )
+
 
 @comments_routers.post("/{post_id}")
 async def add_comment(

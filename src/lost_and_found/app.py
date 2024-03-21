@@ -4,7 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
 from src.lost_and_found.api.dependencies import services
-from src.lost_and_found.api.v1.admin.views.admin import UserAdmin
+from src.lost_and_found.api.v1.admin.views.admin import UserAdmin, FeedbackMessageAdmin, CommentAdmin, PostAdmin
 from src.lost_and_found.api.v1.routers import v1_router
 from src.lost_and_found.config import get_settings
 from src.lost_and_found.extensions.db import engine
@@ -28,6 +28,9 @@ def create_app() -> FastAPI:
     )
     admin = Admin(app, engine)
     admin.add_view(UserAdmin)
+    admin.add_view(FeedbackMessageAdmin)
+    admin.add_view(CommentAdmin)
+    admin.add_view(PostAdmin)
     app.mount(
         "/static",
         StaticFiles(directory="src/lost_and_found/templates/static"),

@@ -13,7 +13,7 @@
             </div>
             <div class="single-post-meta">
                 <span class="single-post-author">
-                    {{ post.author }}
+                    {{ post.author.username }}
                 </span>
                 <span class="single-post-date">
                     {{ post.data }}
@@ -29,9 +29,6 @@
         </div>
         {% for comment in post.comments %}
             <div class="comment">
-                <div class="comment-author">
-                    {{ comment.author }}
-                </div>
                 <div class="comment-content">
                     {{ comment.text }}
                 </div>
